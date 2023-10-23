@@ -7,8 +7,8 @@ type StateServices = {
     readonly setDestinations: React.Dispatch<React.SetStateAction<Destination[]>>;
     readonly search: string;
     readonly setSearch: React.Dispatch<React.SetStateAction<string>>;
-    readonly destination: Destination | null;
-    readonly setDestination: React.Dispatch<React.SetStateAction<Destination | null>>;
+    readonly destination?: Destination;
+    readonly setDestination: React.Dispatch<React.SetStateAction<Destination | undefined>>;
 };
 
 interface Props {
@@ -20,7 +20,7 @@ const StateContext = React.createContext<StateServices | undefined>(undefined);
 export const StateProvider = ({children}: Props): JSX.Element => {
     const [destinations, setDestinations] = React.useState<Destination[]>([]);
     const [search, setSearch] = React.useState<string>("");
-    const [destination, setDestination] = React.useState<Destination | null>(null);
+    const [destination, setDestination] = React.useState<Destination | undefined>();
 
     return (
         <StateContext.Provider

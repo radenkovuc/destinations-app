@@ -1,7 +1,6 @@
-import {Destination as ResponseDestination} from '@/domain/response';
-import {Destination} from '@/domain';
+import {Destination} from "@/domain";
 
-export const MOCKED_DESTINATIONS = [
+const FAKE_DESTINATIONS: Destination[] = [
     {
         "id": 1,
         "name": "Paris, France",
@@ -204,14 +203,51 @@ export const MOCKED_DESTINATIONS = [
     }
 ]
 
-export const mapDestination = (destination: ResponseDestination): Destination => ({
-        id: destination.id,
-        name: destination.name,
-        description: destination.description,
-        country: destination.country,
-        climate: destination.climate,
-        currency: destination.currency,
-        latitude: destination.latitude,
-        longitude: destination.longitude,
-    })
-;
+
+function sleep() {
+    return new Promise(resolve => setTimeout(resolve, 500));
+}
+
+export const getSearchDestinations = async (query: string): Promise<Destination[]> => {
+    console.log("Search Destinations call", 'query', query)
+    await sleep()
+
+    if (query === "fail") {
+        throw "Fail"
+    }
+
+    return FAKE_DESTINATIONS.filter(dest => dest.name.toLowerCase().includes(query.toLowerCase()))
+}
+
+function calculateDistance(dest1: Destination, dest2: Destination) {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (dest2.latitude - dest1.latitude) * (Math.PI / 180);
+    const dLon = (dest2.longitude - dest1.longitude) * (Math.PI / 180);
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(dest1.longitude * (Math.PI / 180)) * Math.cos(dest2.latitude * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    // Distance in kilometers
+    return R * c;
+}
+
+export const getNearbyDestinations = async (destination?: Destination): Promise<Destination[]> => {
+    await sleep()
+
+    if (!destination) {
+        return []
+    }
+
+
+    return FAKE_DESTINATIONS.map(dest => ({
+        distance: calculateDistance(dest, destination),
+        destination: dest
+    }))
+        .sort((a, b) => a.distance - b.distance)
+        .map(item => item.destination)
+        .slice(1, 5); // Get only the first 4 nearby destinations, 0 element is selected destination
+
+}

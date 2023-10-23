@@ -1,0 +1,1 @@
+export {NearbyLocations as default} from "./NearbyLocations"

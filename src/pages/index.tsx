@@ -1,20 +1,17 @@
-import {ChangeEvent} from "react";
-
 import {StateProvider} from '@/state';
-import {getDestinations} from "@/state/hooks/DestinationsHook";
+
+import Search from "@/components/Search";
+import Details from "@/components/Details";
 
 
 const Home = (): JSX.Element => {
 
 
-    const onInput = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
-        await getDestinations(e.target.value)
-    };
-
-
     return (
         <StateProvider>
-            <input onInput={onInput}></input>
+            <>  <Search/>
+                <Details/>
+            </>
         </StateProvider>
     );
 };

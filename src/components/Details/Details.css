@@ -1,0 +1,12 @@
+.destinations-app__details {
+    @apply flex flex-col py-10 max-w-2xl mx-auto my-2;
+
+    &__name {
+        @apply font-semibold text-2xl pb-2;
+    }
+
+    &__field {
+        @apply pb-2
+    }
+
+}

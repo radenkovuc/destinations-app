@@ -1,0 +1,15 @@
+.destinations-app__search-results {
+    @apply absolute bg-white shadow w-full mt-2 rounded-lg p-2;
+
+    &__message {
+        @apply px-2;
+    }
+
+    &__destination {
+        @apply p-2 cursor-pointer;
+
+        &:hover {
+            @apply bg-amber-100;
+        }
+    }
+}

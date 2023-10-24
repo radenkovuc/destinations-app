@@ -6,7 +6,8 @@ import Details from "@/components/Details";
 
 const Home = (): JSX.Element =>
     <StateProvider>
-        <>  <Search/>
+        <>
+            <Search/>
             <Details/>
         </>
     </StateProvider>

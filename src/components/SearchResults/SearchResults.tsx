@@ -1,4 +1,7 @@
-import {Destination} from "@/domain";
+import {useDispatch} from "react-redux";
+
+import {useReduxState} from "@/state/store";
+import {setFocusedResult} from "@/state";
 
 import {Message} from "./Message";
 import {DestinationItem} from "./DestinationItem";
@@ -6,22 +9,15 @@ import {DestinationItem} from "./DestinationItem";
 const BASE_CLASS = 'destinations-app__search-results';
 
 interface SearchResultsProps {
-    isLoading: boolean;
-    isError: boolean;
-    focusedResult: number;
     onSelectResult: () => void
-    onHoverResult: (index: number) => void
-    destinations: Destination[]
 }
 
 export const SearchResults = ({
-                                  isLoading,
-                                  isError,
-                                  focusedResult,
-                                  destinations,
                                   onSelectResult,
-                                  onHoverResult
                               }: SearchResultsProps): JSX.Element => {
+    const {isLoading, isError, focusedResult, destinations} = useReduxState(s => s.search)
+    const dispatch = useDispatch();
+
     if (isLoading) {
         return <Message message="Loading..."/>
     }
@@ -32,6 +28,10 @@ export const SearchResults = ({
 
     if (!destinations.length) {
         return <Message message="No results"/>
+    }
+
+    const onHoverResult = (index: number): void => {
+        dispatch(setFocusedResult(index))
     }
 
     return <div className={BASE_CLASS}>

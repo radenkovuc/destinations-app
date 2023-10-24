@@ -3,10 +3,6 @@ import React from 'react';
 import {Destination} from '@/domain';
 
 type StateServices = {
-    readonly destinations: Destination[];
-    readonly setDestinations: React.Dispatch<React.SetStateAction<Destination[]>>;
-    readonly search: string;
-    readonly setSearch: React.Dispatch<React.SetStateAction<string>>;
     readonly destination?: Destination;
     readonly setDestination: React.Dispatch<React.SetStateAction<Destination | undefined>>;
 };
@@ -18,17 +14,11 @@ interface Props {
 const StateContext = React.createContext<StateServices | undefined>(undefined);
 
 export const StateProvider = ({children}: Props): JSX.Element => {
-    const [destinations, setDestinations] = React.useState<Destination[]>([]);
-    const [search, setSearch] = React.useState<string>("");
     const [destination, setDestination] = React.useState<Destination | undefined>();
 
     return (
         <StateContext.Provider
             value={{
-                destinations,
-                setDestinations,
-                search,
-                setSearch,
                 destination,
                 setDestination
             }}

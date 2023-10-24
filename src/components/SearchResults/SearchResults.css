@@ -3,12 +3,16 @@
 
     &__message {
         @apply px-2;
+
+        &--error {
+            @apply text-red-600;
+        }
     }
 
     &__destination {
         @apply p-2 cursor-pointer;
 
-        &:hover {
+        &--selected {
             @apply bg-amber-100;
         }
     }

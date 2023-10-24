@@ -1,26 +1,46 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 import {useStateContext} from "@/state";
-import {getNearbyDestinations} from "@/services/fake-api";
+import {getNearbyDestinations} from "@/services";
 import {Destination} from "@/domain";
 
 const BASE_CLASS = 'destinations-app__details__nearby-locations';
 
-export const NearbyLocations = (): JSX.Element | null => {
+interface ResultCache {
+    [key: number]: Destination[];
+}
+
+export const NearbyLocations = (): JSX.Element => {
     const [nearbyDestinations, setNearbyDestinations] = useState<Destination[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const {destination, setDestination} = useStateContext()
+    const [resultCache, setResultCache] = useState<ResultCache>({});
 
     useEffect(() => {
-        const findNearbyDestinations = async () => {
-            setIsLoading(true)
-            const nearbyDestinations = await getNearbyDestinations(destination)
-            setNearbyDestinations(nearbyDestinations)
-            setIsLoading(false)
+        if (destination) {
+            void findNearbyDestinations(destination)
         }
-
-        void findNearbyDestinations()
     }, [destination])
+
+    const findNearbyDestinations = async (destination: Destination) => {
+        setIsLoading(true)
+        const nearbyDestinations = await getCashedNearbyDestinations(destination)
+        setNearbyDestinations(nearbyDestinations)
+        setIsLoading(false)
+    }
+
+    const getCashedNearbyDestinations = useMemo(() => {
+        return async (destination: Destination) => {
+            if (resultCache.hasOwnProperty(destination.id)) {
+                return resultCache[destination.id];
+            }
+
+            const result = await getNearbyDestinations(destination);
+            setResultCache(prevCache => ({...prevCache, [destination.id]: result}));
+            return result;
+        };
+    }, [resultCache]);
+
 
     return <div className={BASE_CLASS}>
         <div className={`${BASE_CLASS}__label`}>Nearby locations</div>

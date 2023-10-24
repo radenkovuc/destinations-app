@@ -203,13 +203,12 @@ const FAKE_DESTINATIONS: Destination[] = [
     }
 ]
 
-
 function sleep() {
     return new Promise(resolve => setTimeout(resolve, 500));
 }
 
 export const getSearchDestinations = async (query: string): Promise<Destination[]> => {
-    console.log("Search Destinations call", 'query', query)
+    console.log("Search Destinations call - ", 'query: ', query)
     await sleep()
 
     if (query === "fail") {
@@ -234,20 +233,21 @@ function calculateDistance(dest1: Destination, dest2: Destination) {
     return R * c;
 }
 
-export const getNearbyDestinations = async (destination?: Destination): Promise<Destination[]> => {
+export const getNearbyDestinations = async (dest?: Destination): Promise<Destination[]> => {
+    console.log("Nearby Destinations call - ", 'destination: ', dest?.name)
+
     await sleep()
 
-    if (!destination) {
+    if (!dest) {
         return []
     }
 
-
-    return FAKE_DESTINATIONS.map(dest => ({
+    return FAKE_DESTINATIONS.map(destination => ({
         distance: calculateDistance(dest, destination),
-        destination: dest
+        destination
     }))
         .sort((a, b) => a.distance - b.distance)
         .map(item => item.destination)
-        .slice(1, 5); // Get only the first 4 nearby destinations, 0 element is selected destination
+        .slice(1, 6); // Get only the first 5 nearby destinations, 0 element is selected destination
 
 }

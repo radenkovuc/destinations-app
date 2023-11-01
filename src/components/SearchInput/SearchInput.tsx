@@ -1,8 +1,8 @@
 import {ChangeEvent, KeyboardEvent, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
+import axios from "axios";
 
 import {Destination} from "@/domain";
-import {getSearchDestinations} from "@/services";
 
 import {setDestinations, setError, setFocusedResult, setIsOpen, setLoadingFinished, updateInput} from "@/state";
 import {useReduxState} from "@/state/store";
@@ -30,9 +30,11 @@ export const SearchInput = ({onKeyDown}: SearchInputProps): JSX.Element => {
                 return resultCache[input];
             }
 
-            const result = await getSearchDestinations(input);
-            setResultCache(prevCache => ({...prevCache, [input]: result}));
-            return result;
+            const result = await axios.get<Destination[]>("/api/destinations", {params: {search: input}});
+            const data = result.data
+
+            setResultCache(prevCache => ({...prevCache, [input]: data}));
+            return data;
         };
     }, [resultCache]);
 

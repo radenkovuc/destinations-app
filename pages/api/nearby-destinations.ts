@@ -1,3 +1,6 @@
+// api/nearby-destinations?id=1
+
+import {NextApiRequest, NextApiResponse} from 'next';
 import {Destination} from "@/domain";
 
 const FAKE_DESTINATIONS: Destination[] = [
@@ -207,15 +210,17 @@ function sleep() {
     return new Promise(resolve => setTimeout(resolve, 500));
 }
 
-export const getSearchDestinations = async (query: string): Promise<Destination[]> => {
-    console.log("Search Destinations call - ", 'query: ', query)
-    await sleep()
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+    if (req.method === "GET") {
+        console.log("Nearby Destinations call - ", 'destination: ', req.query)
 
-    if (query === "fail") {
-        throw "Fail"
+        await sleep()
+
+        const id = req.query.id as string
+        const destinations = getNearbyDestinations(id)
+
+        res.status(200).json(destinations)
     }
-
-    return FAKE_DESTINATIONS.filter(dest => dest.name.toLowerCase().includes(query.toLowerCase()))
 }
 
 function calculateDistance(dest1: Destination, dest2: Destination) {
@@ -233,10 +238,9 @@ function calculateDistance(dest1: Destination, dest2: Destination) {
     return R * c;
 }
 
-export const getNearbyDestinations = async (dest?: Destination): Promise<Destination[]> => {
-    console.log("Nearby Destinations call - ", 'destination: ', dest?.name)
+export const getNearbyDestinations = (id: string): Destination[] => {
+    const dest = FAKE_DESTINATIONS.find(d => d.id === parseFloat(id))
 
-    await sleep()
 
     if (!dest) {
         return []
@@ -249,5 +253,6 @@ export const getNearbyDestinations = async (dest?: Destination): Promise<Destina
         .sort((a, b) => a.distance - b.distance)
         .map(item => item.destination)
         .slice(1, 6); // Get only the first 5 nearby destinations, 0 element is selected destination
-
 }
+
+export default handler

@@ -1,4 +1,4 @@
-import {KeyboardEvent, useEffect, useRef} from "react";
+import {KeyboardEvent, useRef} from "react";
 import {useDispatch} from "react-redux";
 
 import {useReduxState} from "@/state/store";
@@ -7,6 +7,7 @@ import {setDestination, setFocusedResult, setInput, setIsOpen} from "@/state";
 
 import SearchInput from "../SearchInput";
 import SearchResults from "../SearchResults";
+import {useClickOutside} from "@/hooks";
 
 
 const BASE_CLASS = 'destinations-app__search';
@@ -17,20 +18,9 @@ export const Search = (): JSX.Element => {
     const ref = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        /**
-         * close results if clicked on outside of content
-         */
-        function handleClickOutside(event: MouseEvent): void {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
-                dispatch(setIsOpen(false))
-            }
-        }
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [ref]);
-
+    useClickOutside(ref, () => {
+        dispatch(setIsOpen(false))
+    })
 
     const onSelectResult = (): void => {
         const selectedDestination = destinations[focusedResult];

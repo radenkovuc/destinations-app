@@ -1,13 +1,12 @@
 import {KeyboardEvent, useRef} from "react";
 import {useDispatch} from "react-redux";
 
-import {useReduxState} from "@/state/store";
+import {destinationActions, searchActions, useReduxState} from "@/store";
 
-import {setDestination, setFocusedResult, setInput, setIsOpen} from "@/state";
+import {useClickOutside} from "@/hooks";
 
 import SearchInput from "../SearchInput";
 import SearchResults from "../SearchResults";
-import {useClickOutside} from "@/hooks";
 
 
 const BASE_CLASS = 'destinations-app__search';
@@ -19,16 +18,16 @@ export const Search = (): JSX.Element => {
     const dispatch = useDispatch();
 
     useClickOutside(ref, () => {
-        dispatch(setIsOpen(false))
+        dispatch(searchActions.setIsOpen(false))
     })
 
     const onSelectResult = (): void => {
         const selectedDestination = destinations[focusedResult];
         if (selectedDestination) {
-            dispatch(setInput(selectedDestination.name))
-            dispatch(setDestination(selectedDestination))
+            dispatch(searchActions.setInput(selectedDestination.name))
+            dispatch(destinationActions.setDestination(selectedDestination))
         }
-        dispatch(setIsOpen(false))
+        dispatch(searchActions.setIsOpen(false))
     }
 
     const onKeyDown = (e: KeyboardEvent): void => {
@@ -38,12 +37,12 @@ export const Search = (): JSX.Element => {
                 break;
             case "ArrowUp":
                 if (focusedResult) {
-                    dispatch(setFocusedResult(focusedResult - 1))
+                    dispatch(searchActions.setFocusedResult(focusedResult - 1))
                 }
                 break;
             case "ArrowDown":
                 if (focusedResult < destinations.length - 1) {
-                    dispatch(setFocusedResult(focusedResult + 1))
+                    dispatch(searchActions.setFocusedResult(focusedResult + 1))
                 }
         }
     };

@@ -3,9 +3,7 @@ import {useDispatch} from "react-redux";
 import axios from "axios";
 
 import {Destination} from "@/domain";
-
-import {setDestinations, setError, setFocusedResult, setIsOpen, setLoadingFinished, updateInput} from "@/state";
-import {useReduxState} from "@/state/store";
+import {searchActions, useReduxState} from "@/store";
 
 const BASE_CLASS = 'destinations-app__search-input';
 
@@ -43,22 +41,22 @@ export const SearchInput = ({onKeyDown}: SearchInputProps): JSX.Element => {
     };
 
     const onChange = async (input: string): Promise<void> => {
-        dispatch(updateInput(input))
-        dispatch(setFocusedResult(0))
+        dispatch(searchActions.updateInput(input))
+        dispatch(searchActions.setFocusedResult(0))
         try {
             const destinations = await getCashedSearchDestinations(input)
-            dispatch(setDestinations(destinations))
+            dispatch(searchActions.setDestinations(destinations))
         } catch (e) {
-            dispatch(setError())
+            dispatch(searchActions.setError())
         } finally {
-            dispatch(setLoadingFinished())
+            dispatch(searchActions.setLoadingFinished())
         }
     };
 
     const onFocus = async (): Promise<void> => {
         if (input) {
             await onChange(input)
-            dispatch(setIsOpen(true))
+            dispatch(searchActions.setIsOpen(true))
         }
     }
 

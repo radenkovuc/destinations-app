@@ -1,13 +1,11 @@
 import {useEffect, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
+import axios from "axios";
 
 import {Destination} from "@/domain";
-
-import {useReduxState} from "@/state/store";
-import {setIsLoading, setNearbyDestinations} from "@/state";
+import {destinationActions, useReduxState} from "@/store";
 
 import {NearbyLocation} from "./NearbyLocation";
-import axios from "axios";
 
 const BASE_CLASS = 'destinations-app__details__nearby-locations';
 
@@ -27,10 +25,10 @@ export const NearbyLocations = (): JSX.Element => {
     }, [selectedDestination])
 
     const findNearbyDestinations = async (destination: Destination) => {
-        dispatch(setIsLoading(true))
+        dispatch(destinationActions.setIsLoading(true))
         const nearbyDestinations = await getCashedNearbyDestinations(destination)
-        dispatch(setNearbyDestinations(nearbyDestinations))
-        dispatch(setIsLoading(false))
+        dispatch(destinationActions.setNearbyDestinations(nearbyDestinations))
+        dispatch(destinationActions.setIsLoading(false))
     }
 
     const getCashedNearbyDestinations = useMemo(() => {

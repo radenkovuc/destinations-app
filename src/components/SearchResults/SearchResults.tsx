@@ -1,7 +1,6 @@
 import {useDispatch} from "react-redux";
 
-import {useReduxState} from "@/state/store";
-import {setFocusedResult} from "@/state";
+import {searchActions, useReduxState} from "@/store";
 
 import {Message} from "./Message";
 import {DestinationItem} from "./DestinationItem";
@@ -12,9 +11,7 @@ interface SearchResultsProps {
     onSelectResult: () => void
 }
 
-export const SearchResults = ({
-                                  onSelectResult,
-                              }: SearchResultsProps): JSX.Element => {
+export const SearchResults = ({onSelectResult}: SearchResultsProps): JSX.Element => {
     const {isLoading, isError, focusedResult, destinations} = useReduxState(s => s.search)
     const dispatch = useDispatch();
 
@@ -31,7 +28,7 @@ export const SearchResults = ({
     }
 
     const onHoverResult = (index: number): void => {
-        dispatch(setFocusedResult(index))
+        dispatch(searchActions.setFocusedResult(index))
     }
 
     return <div className={BASE_CLASS}>

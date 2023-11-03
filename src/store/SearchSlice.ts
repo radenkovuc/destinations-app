@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 import {Destination} from "@/domain";
 
-export interface SearchState {
+interface SearchState {
     input: string;
     isOpen: boolean;
     isLoading: boolean;
@@ -53,14 +53,4 @@ export const SearchSlice = createSlice({
     }
 });
 
-export const {
-    updateInput,
-    setInput,
-    setError,
-    setLoadingFinished,
-    setIsOpen,
-    setFocusedResult,
-    setDestinations
-} = SearchSlice.actions;
-
-export default SearchSlice.reducer;
+export const searchActions = SearchSlice.actions;

@@ -1,4 +1,4 @@
-import {useReduxState} from "@/state/store";
+import {useReduxState} from "@/store";
 
 import NearbyLocations from "@/components/NearbyLocations";
 

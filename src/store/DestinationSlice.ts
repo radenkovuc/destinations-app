@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 import {Destination} from "@/domain";
 
-export interface DestinationState {
+interface DestinationState {
     isLoading: boolean;
     selectedDestination?: Destination
     nearbyDestinations: Destination[]
@@ -29,11 +29,4 @@ export const DestinationSlice = createSlice({
     }
 });
 
-export const {
-    setIsLoading,
-    setDestination,
-    setNearbyDestinations
-} = DestinationSlice.actions;
-
-
-export default DestinationSlice.reducer;
+export const destinationActions = DestinationSlice.actions;

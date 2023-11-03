@@ -203,6 +203,21 @@ export const FAKE_DESTINATIONS: Destination[] = [
     }
 ]
 
-export function sleep() {
+export const calculateDistance = (dest1: Destination, dest2: Destination): number => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (dest2.latitude - dest1.latitude) * (Math.PI / 180);
+    const dLon = (dest2.longitude - dest1.longitude) * (Math.PI / 180);
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(dest1.longitude * (Math.PI / 180)) * Math.cos(dest2.latitude * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    // Distance in kilometers
+    return R * c;
+}
+
+export const sleep = (): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, 500));
 }

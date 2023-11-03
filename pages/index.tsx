@@ -6,7 +6,7 @@ import Details from "@/components/Details";
 const Home = (): JSX.Element => <>
     <Search/>
     <Details/>
-    <Link href="/pages/test">Test</Link>
+    <Link href="/test">Test</Link>
 </>
 
 export default Home;

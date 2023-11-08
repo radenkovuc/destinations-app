@@ -1,9 +1,13 @@
-import {useDispatch} from "react-redux";
+import {useQuery} from "@tanstack/react-query";
+import {useEffect} from "react";
 
-import {searchActions, useReduxState} from "@/store";
+import {setDestinations, setFocusedResult} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/hooks";
+import {getDestinationsBySearchTerm} from "@/services";
 
 import {Message} from "./Message";
 import {DestinationItem} from "./DestinationItem";
+
 
 const BASE_CLASS = 'destinations-app__search-results';
 
@@ -12,8 +16,17 @@ interface SearchResultsProps {
 }
 
 export const SearchResults = ({onSelectResult}: SearchResultsProps): JSX.Element => {
-    const {isLoading, isError, focusedResult, destinations} = useReduxState(s => s.search)
-    const dispatch = useDispatch();
+    const {input, focusedResult} = useAppSelector(s => s.search)
+    const dispatch = useAppDispatch();
+    const {data, isLoading, isError} = useQuery({
+        queryKey: ["destinations", {input}],
+        queryFn: () => getDestinationsBySearchTerm(input),
+        staleTime: Infinity
+    })
+
+    useEffect(() => {
+        dispatch(setDestinations(data))
+    }, [data, dispatch]);
 
     if (isLoading) {
         return <Message message="Loading..."/>
@@ -23,16 +36,16 @@ export const SearchResults = ({onSelectResult}: SearchResultsProps): JSX.Element
         return <Message message="Error" isError/>
     }
 
-    if (!destinations.length) {
+    if (!data?.length) {
         return <Message message="No results"/>
     }
 
     const onHoverResult = (index: number): void => {
-        dispatch(searchActions.setFocusedResult(index))
+        dispatch(setFocusedResult(index))
     }
 
     return <div className={BASE_CLASS}>
-        {destinations.map((destination, index) =>
+        {data?.map((destination, index) =>
             <DestinationItem key={destination.id}
                              isSelected={focusedResult === index}
                              onSelectResult={onSelectResult}

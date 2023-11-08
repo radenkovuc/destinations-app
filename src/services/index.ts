@@ -1,0 +1,1 @@
+export {getDestinationsBySearchTerm, getNearbyDestinations} from "./ApiServices"

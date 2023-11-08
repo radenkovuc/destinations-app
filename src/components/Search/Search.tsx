@@ -1,9 +1,7 @@
 import {KeyboardEvent, useRef} from "react";
-import {useDispatch} from "react-redux";
 
-import {destinationActions, searchActions, useReduxState} from "@/store";
-
-import {useClickOutside} from "@/hooks";
+import {setDestination, setFocusedResult, setInput, setIsOpen,} from "@/store";
+import {useAppDispatch, useAppSelector, useClickOutside} from "@/hooks";
 
 import SearchInput from "../SearchInput";
 import SearchResults from "../SearchResults";
@@ -13,21 +11,21 @@ const BASE_CLASS = 'destinations-app__search';
 
 
 export const Search = (): JSX.Element => {
-    const {isOpen, focusedResult, destinations} = useReduxState(s => s.search)
+    const {isOpen, focusedResult, destinations} = useAppSelector(s => s.search)
     const ref = useRef<HTMLInputElement>(null);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useClickOutside(ref, () => {
-        dispatch(searchActions.setIsOpen(false))
+        dispatch(setIsOpen(false))
     })
 
     const onSelectResult = (): void => {
         const selectedDestination = destinations[focusedResult];
         if (selectedDestination) {
-            dispatch(searchActions.setInput(selectedDestination.name))
-            dispatch(destinationActions.setDestination(selectedDestination))
+            dispatch(setInput(selectedDestination.name))
+            dispatch(setDestination(selectedDestination))
         }
-        dispatch(searchActions.setIsOpen(false))
+        dispatch(setIsOpen(false))
     }
 
     const onKeyDown = (e: KeyboardEvent): void => {
@@ -37,12 +35,12 @@ export const Search = (): JSX.Element => {
                 break;
             case "ArrowUp":
                 if (focusedResult) {
-                    dispatch(searchActions.setFocusedResult(focusedResult - 1))
+                    dispatch(setFocusedResult(focusedResult - 1))
                 }
                 break;
             case "ArrowDown":
                 if (focusedResult < destinations.length - 1) {
-                    dispatch(searchActions.setFocusedResult(focusedResult + 1))
+                    dispatch(setFocusedResult(focusedResult + 1))
                 }
         }
     };

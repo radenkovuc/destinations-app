@@ -1,11 +1,11 @@
-import {useReduxState} from "@/store";
+import {useAppSelector} from "@/hooks";
 
 import NearbyLocations from "@/components/NearbyLocations";
 
 const BASE_CLASS = 'destinations-app__details';
 
 export const Details = (): JSX.Element | null => {
-    const destination = useReduxState(s => s.destinations.selectedDestination)
+    const destination = useAppSelector(s => s.destinations.selectedDestination)
 
     if (!destination) {
         return null

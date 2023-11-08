@@ -1,3 +1,3 @@
-export {wrapper as default, useReduxState} from './AppState';
-export {destinationActions, DestinationSlice} from './DestinationSlice';
-export {searchActions, SearchSlice} from './SearchSlice';
+export {wrapper as default} from './AppState';
+export {setDestination, DestinationSlice} from './DestinationSlice';
+export {updateInput, setInput, setIsOpen, setFocusedResult, setDestinations, SearchSlice} from './SearchSlice';

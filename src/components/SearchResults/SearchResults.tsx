@@ -5,8 +5,7 @@ import {useAppDispatch, useAppSelector, useDestinationsBySearchTerm} from "@/hoo
 
 import {Message} from "./Message";
 import {DestinationItem} from "./DestinationItem";
-
-const BASE_CLASS = 'destinations-app__search-results';
+import classes from "./SearchResults.module.css";
 
 interface SearchResultsProps {
     onSelectResult: () => void
@@ -37,7 +36,7 @@ export const SearchResults = ({onSelectResult}: SearchResultsProps): JSX.Element
         dispatch(setFocusedResult(index))
     }
 
-    return <div className={BASE_CLASS}>
+    return <div className={classes.container}>
         {data?.map((destination, index) =>
             <DestinationItem key={destination.id}
                              isSelected={focusedResult === index}

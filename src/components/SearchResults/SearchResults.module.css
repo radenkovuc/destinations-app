@@ -1,0 +1,20 @@
+.container {
+    @apply absolute bg-white shadow w-full mt-2 rounded-lg p-2;
+}
+
+.message {
+    @apply px-2;
+}
+
+.messageError {
+    @apply text-red-600;
+}
+
+.destination {
+    @apply p-2 cursor-pointer;
+}
+
+.destinationSelected {
+    @apply bg-amber-100;
+}
+

@@ -1,8 +1,8 @@
 import {Destination} from "@/domain";
-import {setDestination} from "@/store";
+import {setDestination, setInput} from "@/store";
 import {useAppDispatch} from "@/hooks";
 
-const BASE_CLASS = 'destinations-app__details__nearby-locations__location';
+import classes from "./NearbyLocations.module.css";
 
 interface NearbyLocationsProps {
     destination: Destination
@@ -13,8 +13,10 @@ export const NearbyLocation = ({destination}: NearbyLocationsProps): JSX.Element
 
     const selectDestination = (destination: Destination) => {
         dispatch(setDestination(destination))
+        dispatch(setInput(destination.name))
+
     }
 
-    return <div key={destination.id} className={BASE_CLASS}
+    return <div key={destination.id} className={classes.location}
                 onClick={() => selectDestination(destination)}>{destination.name}</div>
 }

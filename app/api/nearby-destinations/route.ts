@@ -1,24 +1,21 @@
 // api/nearby-destinations?id=1
 
-import {NextApiRequest, NextApiResponse} from 'next';
+import {NextRequest, NextResponse} from "next/server";
 
 import {Destination} from "@/domain";
 
-import {calculateDistance, FAKE_DESTINATIONS, sleep} from "./utils";
+import {calculateDistance, FAKE_DESTINATIONS, sleep} from "../utils";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method === "GET") {
-        console.log("Nearby Destinations call - ", 'destination: ', req.query)
+export async function GET(req: NextRequest) {
 
-        await sleep()
+    console.log("Nearby Destinations call - ", 'destination: ', req.nextUrl.searchParams)
+    await sleep()
 
-        const id = req.query.id as string
-        const destinations = getNearbyDestinations(id)
+    const id = req.nextUrl.searchParams.get("id") as string
+    const destinations = getNearbyDestinations(id)
 
-        res.status(200).json(destinations)
-    }
+    return NextResponse.json(destinations, {status: 200})
 }
-
 
 const getNearbyDestinations = (id: string): Destination[] => {
     const dest = FAKE_DESTINATIONS.find(d => d.id === parseFloat(id))
@@ -35,5 +32,3 @@ const getNearbyDestinations = (id: string): Destination[] => {
         .slice(1, 6) // Get only the first 5 nearby destinations, 0 element is selected destination
         .map(item => item.destination);
 }
-
-export default handler

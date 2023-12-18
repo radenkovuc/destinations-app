@@ -1,0 +1,11 @@
+.search {
+    @apply flex flex-col p-10 max-w-2xl bg-amber-300 mx-auto my-2 rounded-lg;
+}
+
+.label {
+    @apply mb-2;
+}
+
+.content {
+    @apply relative;
+}

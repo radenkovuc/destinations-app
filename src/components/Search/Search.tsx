@@ -1,3 +1,5 @@
+"use client"
+
 import {KeyboardEvent, useRef} from "react";
 
 import {setDestination, setFocusedResult, setInput, setIsOpen,} from "@/store";
@@ -6,8 +8,7 @@ import {useAppDispatch, useAppSelector, useClickOutside} from "@/hooks";
 import SearchInput from "../SearchInput";
 import SearchResults from "../SearchResults";
 
-const BASE_CLASS = 'destinations-app__search';
-
+import classes from "./Search.module.css";
 
 export const Search = (): JSX.Element => {
     const {isOpen, focusedResult, destinations} = useAppSelector(s => s.search)
@@ -44,9 +45,9 @@ export const Search = (): JSX.Element => {
         }
     };
 
-    return <div className={BASE_CLASS}>
-        <label className={`${BASE_CLASS}__label`}>Location</label>
-        <div className={`${BASE_CLASS}__content`} ref={ref}>
+    return <div className={classes.search}>
+        <label className={classes.label}>Location</label>
+        <div className={classes.content} ref={ref}>
             <SearchInput onKeyDown={onKeyDown}/>
             {isOpen && <SearchResults onSelectResult={onSelectResult}/>}
         </div>

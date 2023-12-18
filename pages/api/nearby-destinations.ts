@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 
-export const getNearbyDestinations = (id: string): Destination[] => {
+const getNearbyDestinations = (id: string): Destination[] => {
     const dest = FAKE_DESTINATIONS.find(d => d.id === parseFloat(id))
 
     if (!dest) {
@@ -32,8 +32,8 @@ export const getNearbyDestinations = (id: string): Destination[] => {
         destination
     }))
         .sort((a, b) => a.distance - b.distance)
-        .map(item => item.destination)
-        .slice(1, 6); // Get only the first 5 nearby destinations, 0 element is selected destination
+        .slice(1, 6) // Get only the first 5 nearby destinations, 0 element is selected destination
+        .map(item => item.destination);
 }
 
 export default handler

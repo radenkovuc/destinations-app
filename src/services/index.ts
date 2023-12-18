@@ -1,1 +1,1 @@
-export {getDestinationsBySearchTerm, getNearbyDestinations} from "./ApiServices"
+export {getData} from "./ApiServices"

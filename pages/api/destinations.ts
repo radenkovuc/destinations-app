@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 
-export const getNearbyDestinations = (search: string): Destination[] => {
+const getNearbyDestinations = (search: string): Destination[] => {
     return FAKE_DESTINATIONS.filter(dest => dest.name.toLowerCase().includes(search?.toLowerCase()))
 }
 

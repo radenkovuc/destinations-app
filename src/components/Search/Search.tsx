@@ -6,13 +6,12 @@ import {useAppDispatch, useAppSelector, useClickOutside} from "@/hooks";
 import SearchInput from "../SearchInput";
 import SearchResults from "../SearchResults";
 
-
 const BASE_CLASS = 'destinations-app__search';
 
 
 export const Search = (): JSX.Element => {
     const {isOpen, focusedResult, destinations} = useAppSelector(s => s.search)
-    const ref = useRef<HTMLInputElement>(null);
+    const ref = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
 
     useClickOutside(ref, () => {

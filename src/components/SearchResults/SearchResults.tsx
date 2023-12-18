@@ -1,13 +1,10 @@
-import {useQuery} from "@tanstack/react-query";
 import {useEffect} from "react";
 
 import {setDestinations, setFocusedResult} from "@/store";
-import {useAppDispatch, useAppSelector} from "@/hooks";
-import {getDestinationsBySearchTerm} from "@/services";
+import {useAppDispatch, useAppSelector, useDestinationsBySearchTerm} from "@/hooks";
 
 import {Message} from "./Message";
 import {DestinationItem} from "./DestinationItem";
-
 
 const BASE_CLASS = 'destinations-app__search-results';
 
@@ -18,11 +15,7 @@ interface SearchResultsProps {
 export const SearchResults = ({onSelectResult}: SearchResultsProps): JSX.Element => {
     const {input, focusedResult} = useAppSelector(s => s.search)
     const dispatch = useAppDispatch();
-    const {data, isLoading, isError} = useQuery({
-        queryKey: ["destinations", {input}],
-        queryFn: () => getDestinationsBySearchTerm(input),
-        staleTime: Infinity
-    })
+    const {data, isLoading, isError} = useDestinationsBySearchTerm(input)
 
     useEffect(() => {
         dispatch(setDestinations(data))

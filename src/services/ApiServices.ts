@@ -2,12 +2,12 @@ import axios from "axios";
 
 import {Destination} from "@/domain";
 
-export const getDestinationsBySearchTerm = async (search?: string): Promise<Destination[]> => {
-    const result = await axios.get<Destination[]>("/api/destinations", {params: {search: search}});
-    return result.data
+interface GetDataProps {
+    url: string,
+    params?: any
 }
 
-export const getNearbyDestinations = async (id?: number): Promise<Destination[]> => {
-    const result = await axios.get<Destination[]>("/api/nearby-destinations", {params: {id}});
+export const getData = async <T>({params, url}: GetDataProps): Promise<T[]> => {
+    const result = await axios.get<T[]>(`/api/${url}`, {params});
     return result.data
 }

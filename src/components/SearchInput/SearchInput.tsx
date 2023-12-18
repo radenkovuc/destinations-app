@@ -23,7 +23,6 @@ export const SearchInput = ({onKeyDown}: SearchInputProps): JSX.Element => {
         }
     }
 
-
     return <input className={BASE_CLASS} value={input} onInput={onInput} onFocus={onFocus} onKeyDown={onKeyDown}
                   placeholder="Search for location..."/>
 

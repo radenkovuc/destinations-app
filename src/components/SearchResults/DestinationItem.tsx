@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import {Destination} from "@/domain";
 
-const BASE_CLASS = 'destinations-app__search-results__destination';
+import classes from "./SearchResults.module.css";
 
 interface DestinationItemProps {
     isSelected: boolean;
@@ -18,7 +18,7 @@ export const DestinationItem = ({
                                     onHoverResult
                                 }: DestinationItemProps): JSX.Element =>
     <div
-        className={classNames(BASE_CLASS, isSelected && `${BASE_CLASS}--selected`)}
+        className={classNames(classes.destination, isSelected && classes.destinationSelected)}
         key={destination.id}
         onClick={onSelectResult}
         onMouseEnter={onHoverResult}

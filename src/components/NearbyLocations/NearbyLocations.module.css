@@ -1,0 +1,14 @@
+.nearbyLocations {
+    @apply pt-4;
+}
+
+.label {
+    @apply text-2xl;
+}
+
+.locations {
+}
+
+.location {
+    @apply inline-block rounded-lg bg-blue-700 text-amber-50 uppercase m-2 p-2 cursor-pointer;
+}

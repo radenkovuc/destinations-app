@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 
+import classes from "./SearchResults.module.css";
+
 interface MessageProps {
     message: string;
     isError?: boolean
 }
 
-const BASE_CLASS = 'destinations-app__search-results';
-
 export const Message = ({message, isError}: MessageProps): JSX.Element =>
-    <div className={BASE_CLASS}>
+    <div className={classes.container}>
         <div
-            className={classNames(`${BASE_CLASS}__message`, isError && `${BASE_CLASS}__message--error`)}>{message}</div>
+            className={classNames(classes.message, isError && classes.messageError)}>{message}</div>
     </div>
 

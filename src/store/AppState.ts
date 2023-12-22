@@ -1,18 +1,14 @@
 import {configureStore} from "@reduxjs/toolkit";
-import {createWrapper} from "next-redux-wrapper";
 
-import {DestinationSlice, SearchSlice} from ".";
+import {DestinationSlice} from "./DestinationSlice";
+import {SearchSlice} from "./SearchSlice";
 
-const makeStore = (updateInput: any) =>
-    configureStore({
-        reducer: {
-            destinations: DestinationSlice.reducer,
-            search: SearchSlice.reducer,
-        }
-    });
+export const store = configureStore({
+    reducer: {
+        destinations: DestinationSlice.reducer,
+        search: SearchSlice.reducer,
+    }
+});
 
-export type AppDispatch = typeof makeStore
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppState = ReturnType<AppStore["getState"]>;
-
-export const wrapper = createWrapper<AppStore>(makeStore);
+export type AppDispatch = typeof store
+export type AppState = ReturnType<AppDispatch["getState"]>;

@@ -1,9 +1,0 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
-@import '../components/Details/Details.css';
-@import '../components/NearbyLocations/NearbyLocations.css';
-@import '../components/Search/Search.css';
-@import '../components/SearchInput/SearchInput.css';
-@import '../components/SearchResults/SearchResults.css';

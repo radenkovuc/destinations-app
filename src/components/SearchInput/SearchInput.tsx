@@ -3,7 +3,7 @@ import {ChangeEvent, KeyboardEvent} from "react";
 import {updateInput} from "@/store";
 import {useAppDispatch, useAppSelector} from "@/hooks";
 
-const BASE_CLASS = 'destinations-app__search-input';
+import classes from "./SearchInput.module.css";
 
 interface SearchInputProps {
     onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void
@@ -23,7 +23,8 @@ export const SearchInput = ({onKeyDown}: SearchInputProps): JSX.Element => {
         }
     }
 
-    return <input className={BASE_CLASS} value={input} onInput={onInput} onFocus={onFocus} onKeyDown={onKeyDown}
+    return <input className={classes.input} value={input} onInput={onInput} onFocus={onFocus}
+                  onKeyDown={onKeyDown}
                   placeholder="Search for location..."/>
 
 }

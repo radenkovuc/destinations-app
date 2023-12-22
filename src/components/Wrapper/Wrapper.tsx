@@ -1,20 +1,21 @@
-import type {AppProps} from 'next/app';
+"use client"
+
 import {Provider} from 'react-redux';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 
-import wrapper from "../src/store";
+import store from "@/store";
 
-import '@/styles/globals.css';
+interface Props {
+    children: ReactNode
+}
 
-const App = ({Component, pageProps}: AppProps) => {
-    const {store} = wrapper.useWrappedStore(pageProps);
+export const Wrapper = ({children}: Props) => {
     const [queryClient] = useState(() => new QueryClient());
 
     return (<QueryClientProvider client={queryClient}>
         <Provider store={store}>
-            <Component {...pageProps} />
+            {children}
         </Provider>
     </QueryClientProvider>)
 }
-export default App

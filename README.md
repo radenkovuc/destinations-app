@@ -9,6 +9,6 @@ npm install
 npm run dev
 ```
 
-If you open [http://localhost:3000](http://localhost:3000) with your browser, you will see initial page with Destination Search component.
+If you open [http://localhost:3000](http://localhost:3000) with your browser, you will see an initial page with Destination Search component.
 
-Preview of this application is also deployed on netlify an you can see it [here](https://classy-raindrop-12b5ef.netlify.app/)  
+A preview of this application is also deployed on Vercel and you can see it [here](https://destinations-app-iota.vercel.app/)
